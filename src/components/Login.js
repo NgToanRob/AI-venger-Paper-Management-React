@@ -1,53 +1,130 @@
-import React from 'react';
-import {MDBContainer, MDBCol, MDBRow, MDBBtn, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
-import '../assets/css/Login.css'
+import React, { useState } from 'react';
+import {
+  MDBContainer,
+  MDBTabs,
+  MDBTabsItem,
+  MDBTabsLink,
+  MDBTabsContent,
+  MDBTabsPane,
+  MDBBtn,
+  MDBIcon,
+  MDBInput,
+  MDBCheckbox
+}
+from 'mdb-react-ui-kit';
 
-function App() {
+function Login() {
+
+  const [justifyActive, setJustifyActive] = useState('tab1');;
+
+  const handleJustifyClick = (value) => {
+    if (value === justifyActive) {
+      return;
+    }
+
+    setJustifyActive(value);
+  };
 
   return (
-    <MDBContainer fluid className="p-3 my-5 h-custom">
+    <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
 
-      <MDBRow>
+      <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleJustifyClick('tab1')} active={justifyActive === 'tab1'}>
+            Login
+          </MDBTabsLink>
+        </MDBTabsItem>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleJustifyClick('tab2')} active={justifyActive === 'tab2'}>
+            Register
+          </MDBTabsLink>
+        </MDBTabsItem>
+      </MDBTabs>
 
-        <MDBCol col='10' md='6'>
-          <img src={"https://cinnamon.is/en/wp-content/uploads/sites/2/2020/04/CinnamonAI_1280x670.jpg"} 
-          class="img-fluid" alt="..." />
-        </MDBCol>
+      <MDBTabsContent>
 
-        <MDBCol col='4' md='6'>
-          <div className="d-flex flex-row align-items-center justify-content-center">
-            <p className="lead fw-normal mb-0 me-3">Sign in with</p>
-            <MDBBtn floating size='md' tag='a' className='me-2'>
-              <i class="bi bi-google"></i>
-            </MDBBtn>
-            <MDBBtn floating size='md' tag='a'  className='me-2'>
-              <i class="bi bi-github"></i>
-            </MDBBtn>
+        <MDBTabsPane show={justifyActive === 'tab1'}>
+
+          <div className="text-center mb-3">
+            <p>Sign in with:</p>
+
+            <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='facebook-f' size="sm"/>
+              </MDBBtn>
+
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='twitter' size="sm"/>
+              </MDBBtn>
+
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='google' size="sm"/>
+              </MDBBtn>
+
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='github' size="sm"/>
+              </MDBBtn>
+            </div>
+
+            <p className="text-center mt-3">or:</p>
           </div>
 
-          <div className="divider d-flex align-items-center my-4">
-            <p className="text-center fw-bold mx-3 mb-0">Or</p>
-          </div>
+          <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'/>
+          <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'/>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
-
-          <div className="d-flex justify-content-between mb-4">
+          <div className="d-flex justify-content-between mx-4 mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a href="!#">Forgot password?</a>
           </div>
 
-          <div className='text-center text-md-start mt-4 pt-2'>
-            <MDBBtn className="mb-0 px-5" size='lg'>Login</MDBBtn>
-            <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="#!" className="link-danger">Register</a></p>
+          <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
+          <p className="text-center">Not a member? <a href="#!">Register</a></p>
+
+        </MDBTabsPane>
+
+        <MDBTabsPane show={justifyActive === 'tab2'}>
+
+          <div className="text-center mb-3">
+            <p>Sign un with:</p>
+
+            <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='facebook-f' size="sm"/>
+              </MDBBtn>
+
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='twitter' size="sm"/>
+              </MDBBtn>
+
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='google' size="sm"/>
+              </MDBBtn>
+
+              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
+                <MDBIcon fab icon='github' size="sm"/>
+              </MDBBtn>
+            </div>
+
+            <p className="text-center mt-3">or:</p>
           </div>
 
-        </MDBCol>
+          <MDBInput wrapperClass='mb-4' label='Name' id='form1' type='text'/>
+          <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text'/>
+          <MDBInput wrapperClass='mb-4' label='Email' id='form1' type='email'/>
+          <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password'/>
 
-      </MDBRow>
+          <div className='d-flex justify-content-center mb-4'>
+            <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />
+          </div>
+
+          <MDBBtn className="mb-4 w-100">Sign up</MDBBtn>
+
+        </MDBTabsPane>
+
+      </MDBTabsContent>
 
     </MDBContainer>
   );
 }
 
-export default App;
+export default Login;
