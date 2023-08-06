@@ -1,5 +1,5 @@
 import React from 'react';
-import {MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
+import {MDBContainer, MDBCol, MDBRow, MDBBtn, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
 import '../assets/css/Login.css'
 
 function App() {
@@ -15,19 +15,14 @@ function App() {
         </MDBCol>
 
         <MDBCol col='4' md='6'>
-
           <div className="d-flex flex-row align-items-center justify-content-center">
-
             <p className="lead fw-normal mb-0 me-3">Sign in with</p>
-
             <MDBBtn floating size='md' tag='a' className='me-2'>
               <i class="bi bi-google"></i>
             </MDBBtn>
-
             <MDBBtn floating size='md' tag='a'  className='me-2'>
               <i class="bi bi-github"></i>
             </MDBBtn>
-
           </div>
 
           <div className="divider d-flex align-items-center my-4">
@@ -50,15 +45,6 @@ function App() {
         </MDBCol>
 
       </MDBRow>
-
-      <div className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-
-        <div className="text-white mb-3 mb-md-0">
-          Copyright © 2020. All rights reserved.
-        </div>
-
-
-      </div>
 
     </MDBContainer>
   );

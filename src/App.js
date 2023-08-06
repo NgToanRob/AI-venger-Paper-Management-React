@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -7,11 +7,6 @@ import ChatPaper from './components/ChatPaper';
 
 
 const App = () => {
-
-  const [document, setDocument] = useState("../../1706.03762.pdf");
-
-  const handleOpen = () => setDocument("../../1706.03762.pdf");
-
   return (
     <Router>
       <NavbarComponent />

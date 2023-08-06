@@ -5,9 +5,6 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
 const ChatPaper = () => {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
   const [chatMessages, setChatMessages] = useState([]);
   const [message, setMessage] = useState('');
 
