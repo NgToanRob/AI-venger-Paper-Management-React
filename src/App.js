@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import {React, useState} from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login';
+import NavbarComponent from './components/Navbar';
+import ChatPaper from './components/ChatPaper';
 
-function App() {
+
+const App = () => {
+
+  const [document, setDocument] = useState("../../1706.03762.pdf");
+
+  const handleOpen = () => setDocument("../../1706.03762.pdf");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavbarComponent />
+
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/chatpaper" component={ChatPaper} />
+        {/* Add other routes if needed */}
+      </Switch>
+
+    </Router>
   );
-}
+};
 
 export default App;
