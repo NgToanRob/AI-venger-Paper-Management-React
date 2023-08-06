@@ -11,7 +11,7 @@ function App() {
 
         <MDBCol col='10' md='6'>
           <img src={"https://cinnamon.is/en/wp-content/uploads/sites/2/2020/04/CinnamonAI_1280x670.jpg"} 
-          class="img-fluid" alt="Sample image" />
+          class="img-fluid" alt="..." />
         </MDBCol>
 
         <MDBCol col='4' md='6'>
