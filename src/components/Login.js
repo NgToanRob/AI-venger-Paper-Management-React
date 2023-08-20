@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   MDBContainer,
   MDBTabs,
@@ -10,12 +11,13 @@ import {
   MDBIcon,
   MDBInput,
   MDBCheckbox
-}
-from 'mdb-react-ui-kit';
+} from 'mdb-react-ui-kit';
+import API_BASE_URL from '../apiConfig'; 
 
 function Login() {
 
   const [justifyActive, setJustifyActive] = useState('tab1');;
+
 
   const handleJustifyClick = (value) => {
     if (value === justifyActive) {
@@ -24,6 +26,73 @@ function Login() {
 
     setJustifyActive(value);
   };
+
+  // Check authen
+  const history = useHistory();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
+  // Login tab
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState('');
+
+  const handLogin = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Cookie", document.cookie);
+
+    let format = new FormData();
+    format.append("email", email);
+    format.append("password", password);
+    format.append("remember_me", rememberMe);
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: format,
+      redirect: 'follow'
+    };
+
+    fetch(`${API_BASE_URL}auth/login/`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+    // Once login is successful, update authentication status
+    setIsAuthenticated(true);
+
+    // Redirect to home page
+    history.push('/home');
+  }
+
+  // Register tab
+  const [name, setName] = useState('');
+  const [emailRegister, setEmailRegister] = useState('');
+  const [passwordRegister, setPasswordRegister] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState('');
+
+  const handRegister = () => {
+    let format = new FormData();
+    format.append("name", name);
+    format.append("email", emailRegister);
+    format.append("password", passwordRegister);
+    format.append("confirm_password", passwordConfirm);
+    format.append("accept_terms", acceptTerms);
+
+    let requestOptions = {
+      method: 'POST',
+      body: format,
+      redirect: 'follow'
+    };
+
+    fetch(`${API_BASE_URL}auth/register/`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
+
+
 
   return (
     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
@@ -48,36 +117,62 @@ function Login() {
           <div className="text-center mb-3">
             <p>Sign in with:</p>
 
-            <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
+            <div className='d-flex justify-content-between mx-auto' style={{ width: '40%' }}>
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm"/>
+                <MDBIcon fab icon='facebook-f' size="sm" />
               </MDBBtn>
 
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm"/>
+                <MDBIcon fab icon='twitter' size="sm" />
               </MDBBtn>
 
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm"/>
+                <MDBIcon fab icon='google' size="sm" />
               </MDBBtn>
 
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm"/>
+                <MDBIcon fab icon='github' size="sm" />
               </MDBBtn>
             </div>
 
             <p className="text-center mt-3">or:</p>
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'/>
+          <MDBInput
+            wrapperClass='mb-4'
+            label='Email address'
+            id='form1'
+            type='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <MDBInput
+            wrapperClass='mb-4'
+            label='Password'
+            id='form2'
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <div className="d-flex justify-content-between mx-4 mb-4">
-            <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
+            <MDBCheckbox
+              name='flexCheck'
+              value=''
+              id='flexCheckDefault'
+              label='Remember me'
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
             <a href="!#">Forgot password?</a>
           </div>
 
-          <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
+          <MDBBtn
+            className="mb-4 w-100"
+            onClick={handLogin}
+          >
+            Sign in
+          </MDBBtn>
           <p className="text-center">Not a member? <a href="#!">Register</a></p>
 
         </MDBTabsPane>
@@ -87,37 +182,76 @@ function Login() {
           <div className="text-center mb-3">
             <p>Sign un with:</p>
 
-            <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
+            <div className='d-flex justify-content-between mx-auto' style={{ width: '40%' }}>
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm"/>
+                <MDBIcon fab icon='facebook-f' size="sm" />
               </MDBBtn>
 
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm"/>
+                <MDBIcon fab icon='twitter' size="sm" />
               </MDBBtn>
 
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm"/>
+                <MDBIcon fab icon='google' size="sm" />
               </MDBBtn>
 
               <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm"/>
+                <MDBIcon fab icon='github' size="sm" />
               </MDBBtn>
             </div>
 
             <p className="text-center mt-3">or:</p>
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Name' id='form1' type='text'/>
-          <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text'/>
-          <MDBInput wrapperClass='mb-4' label='Email' id='form1' type='email'/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password'/>
+          <MDBInput
+            wrapperClass='mb-4'
+            label='Name'
+            id='form1'
+            type='text'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <MDBInput
+            wrapperClass='mb-4'
+            label='Email'
+            id='form1'
+            type='email'
+            value={emailRegister}
+            onChange={(e) => setEmailRegister(e.target.value)}
+          />
+          <MDBInput
+            wrapperClass='mb-4'
+            label='Password'
+            id='form1'
+            type='password'
+            value={passwordRegister}
+            onChange={(e) => setPasswordRegister(e.target.value)}
+          />
+          <MDBInput
+            wrapperClass='mb-4'
+            label='Confirm Password'
+            id='form1'
+            type='password'
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+          />
 
           <div className='d-flex justify-content-center mb-4'>
-            <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />
+            <MDBCheckbox
+              name='flexCheck'
+              id='flexCheckDefault'
+              label='I have read and agree to the terms'
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+            />
           </div>
 
-          <MDBBtn className="mb-4 w-100">Sign up</MDBBtn>
+          <MDBBtn
+            className="mb-4 w-100"
+            onClick={handRegister}
+          >
+            Sign up
+          </MDBBtn>
 
         </MDBTabsPane>
 

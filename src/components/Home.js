@@ -8,7 +8,6 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestedInfo, setSuggestedInfo] = useState([]);
   const [recommendedPapers, setRecommendedPapers] = useState([]);
-  // const [relatedKeywords, setRelatedKeywords] = useState([]); 
 
   const handleSearch = () => {
     // Make the API request using Fetch API
