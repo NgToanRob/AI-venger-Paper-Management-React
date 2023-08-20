@@ -12,7 +12,7 @@ const Home = () => {
 
   const handleSearch = () => {
     // Make the API request using Fetch API
-    fetch(`${API_BASE_URL}search/api/search/?query=${searchQuery}`)
+    fetch(`${API_BASE_URL}home/api/search/?query=${searchQuery}`)
       .then(response => response.json())
       .then(data => {
         // Update the suggestedInfo state with the search results
@@ -25,7 +25,7 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch recommended papers based on search history
-    fetch(`${API_BASE_URL}/search/api/recommended/`)
+    fetch(`${API_BASE_URL}home/api/recommended/`)
       .then(response => response.json())
       .then(data => {
         setRecommendedPapers(data);

@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import NavbarComponent from './components/Navbar';
 import ChatPaper from './components/ChatPaper';
+import Profile from './components/Profile';
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route exact path="/home" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/chatpaper" component={ChatPaper} />
+        <Route exact path="/profile" component={Profile} />
         {/* Add other routes if needed */}
       </Switch>
 
