@@ -1,0 +1,67 @@
+/* Home.css
+.home-container {
+    margin-top: 30px;
+  }
+  
+  .result-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f7f7f7;
+  }
+  
+  .recommended-paper {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+  }
+   */
+   /* Home.css */
+.home-container {
+    margin-top: 30px;
+  }
+  
+  .result-card {
+    border: 1px solid #d1d1d1;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .result-card h5 {
+    margin-bottom: 10px;
+  }
+  
+  .recommended-papers {
+    padding: 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommended-paper {
+    border-bottom: 1px solid #d1d1d1;
+    padding: 10px 0;
+  }
+  
+  .recommended-paper:last-child {
+    border-bottom: none;
+    
+  }
+
+/* Home.css */
+.plain-link {
+  color: inherit; /* Inherit text color from parent element */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+
+/* Home.css */
+.highlight {
+    background-color: yellow;
+  }
+  
