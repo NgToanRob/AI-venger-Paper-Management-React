@@ -1,264 +1,216 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
-  MDBContainer,
-  MDBTabs,
-  MDBTabsItem,
-  MDBTabsLink,
-  MDBTabsContent,
-  MDBTabsPane,
-  MDBBtn,
-  MDBIcon,
-  MDBInput,
-  MDBCheckbox
-} from 'mdb-react-ui-kit';
-import API_BASE_URL from '../apiConfig'; 
+  Tabs,
+  Tab,
+  Paper,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Container,
+  CssBaseline,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
+import API_BASE_URL from '../apiConfig';
 
-function Login() {
-
-  const [justifyActive, setJustifyActive] = useState('tab1');;
-
-
-  const handleJustifyClick = (value) => {
-    if (value === justifyActive) {
-      return;
-    }
-
-    setJustifyActive(value);
-  };
-
-  // Check authen
-  const history = useHistory();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-
-  // Login tab
+const Login = () => {
+  const [currentTab, setCurrentTab] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState('');
-
-  const handLogin = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Cookie", document.cookie);
-
-    let format = new FormData();
-    format.append("email", email);
-    format.append("password", password);
-    format.append("remember_me", rememberMe);
-
-    let requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: format,
-      redirect: 'follow'
-    };
-
-    fetch(`${API_BASE_URL}auth/login/`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-
-    // Once login is successful, update authentication status
-    setIsAuthenticated(true);
-
-    // Redirect to home page
-    history.push('/home');
-  }
-
-  // Register tab
+  const [rememberMe, setRememberMe] = useState(false);
+  const [status, setStatus] = useState('');
   const [name, setName] = useState('');
-  const [emailRegister, setEmailRegister] = useState('');
-  const [passwordRegister, setPasswordRegister] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [acceptTerms, setAcceptTerms] = useState('');
+  const history = useHistory();
 
-  const handRegister = () => {
-    let format = new FormData();
-    format.append("name", name);
-    format.append("email", emailRegister);
-    format.append("password", passwordRegister);
-    format.append("confirm_password", passwordConfirm);
-    format.append("accept_terms", acceptTerms);
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue);
+  };
 
-    let requestOptions = {
-      method: 'POST',
-      body: format,
-      redirect: 'follow'
+  const handleLogin = async () => {
+    const data = {
+      'email': email,
+      'password': password,
+      'remember_me': rememberMe,
+    };
+    console.log(data)
+
+    try {
+      const response = await fetch(`${API_BASE_URL}auth/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include', // Send cookies with the request
+      });
+
+      const responseData = await response.json();
+      console.log(responseData)
+
+      if (response.ok) {
+        // Login successful
+        console.log(response.cookies)
+        history.push('/home'); // Navigate to /home
+      } else {
+        // Login failed
+        setStatus('Invalid email or password'); // Display error message
+      }
+    } catch (error) {
+      setStatus('An error occurred'); // Display error message
+    }
+  };
+
+
+  const handleRegister = async () => {
+    const data = {
+      name: name,
+      email: email,
+      password: password,
     };
 
-    fetch(`${API_BASE_URL}auth/register/`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  }
+    try {
+      const response = await fetch(`${API_BASE_URL}auth/register/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
+      const responseData = await response.json();
 
+      if (response.ok) {
+        // Registration successful
+        console.log('Registration successful:', responseData.message);
+        history.push('/home'); // Navigate to /home
+      } else {
+        // Registration failed
+        setStatus(responseData.message);
+      }
+    } catch (error) {
+      setStatus('An error occurred'); // Display error message
+    }
+  };
 
   return (
-    <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-
-      <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
-        <MDBTabsItem>
-          <MDBTabsLink onClick={() => handleJustifyClick('tab1')} active={justifyActive === 'tab1'}>
-            Login
-          </MDBTabsLink>
-        </MDBTabsItem>
-        <MDBTabsItem>
-          <MDBTabsLink onClick={() => handleJustifyClick('tab2')} active={justifyActive === 'tab2'}>
-            Register
-          </MDBTabsLink>
-        </MDBTabsItem>
-      </MDBTabs>
-
-      <MDBTabsContent>
-
-        <MDBTabsPane show={justifyActive === 'tab1'}>
-
-          <div className="text-center mb-3">
-            <p>Sign in with:</p>
-
-            <div className='d-flex justify-content-between mx-auto' style={{ width: '40%' }}>
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm" />
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm" />
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm" />
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm" />
-              </MDBBtn>
-            </div>
-
-            <p className="text-center mt-3">or:</p>
-          </div>
-
-          <MDBInput
-            wrapperClass='mb-4'
-            label='Email address'
-            id='form1'
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <MDBInput
-            wrapperClass='mb-4'
-            label='Password'
-            id='form2'
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <div className="d-flex justify-content-between mx-4 mb-4">
-            <MDBCheckbox
-              name='flexCheck'
-              value=''
-              id='flexCheckDefault'
-              label='Remember me'
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-            />
-            <a href="!#">Forgot password?</a>
-          </div>
-
-          <MDBBtn
-            className="mb-4 w-100"
-            onClick={handLogin}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        marginTop: '100px'
+      }}
+    >
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Paper elevation={3}>
+          <Tabs
+            value={currentTab}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            indicatorColor="primary"
+            textColor="primary"
           >
-            Sign in
-          </MDBBtn>
-          <p className="text-center">Not a member? <a href="#!">Register</a></p>
-
-        </MDBTabsPane>
-
-        <MDBTabsPane show={justifyActive === 'tab2'}>
-
-          <div className="text-center mb-3">
-            <p>Sign un with:</p>
-
-            <div className='d-flex justify-content-between mx-auto' style={{ width: '40%' }}>
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm" />
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm" />
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm" />
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm" />
-              </MDBBtn>
-            </div>
-
-            <p className="text-center mt-3">or:</p>
-          </div>
-
-          <MDBInput
-            wrapperClass='mb-4'
-            label='Name'
-            id='form1'
-            type='text'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <MDBInput
-            wrapperClass='mb-4'
-            label='Email'
-            id='form1'
-            type='email'
-            value={emailRegister}
-            onChange={(e) => setEmailRegister(e.target.value)}
-          />
-          <MDBInput
-            wrapperClass='mb-4'
-            label='Password'
-            id='form1'
-            type='password'
-            value={passwordRegister}
-            onChange={(e) => setPasswordRegister(e.target.value)}
-          />
-          <MDBInput
-            wrapperClass='mb-4'
-            label='Confirm Password'
-            id='form1'
-            type='password'
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-          />
-
-          <div className='d-flex justify-content-center mb-4'>
-            <MDBCheckbox
-              name='flexCheck'
-              id='flexCheckDefault'
-              label='I have read and agree to the terms'
-              checked={acceptTerms}
-              onChange={(e) => setAcceptTerms(e.target.checked)}
-            />
-          </div>
-
-          <MDBBtn
-            className="mb-4 w-100"
-            onClick={handRegister}
-          >
-            Sign up
-          </MDBBtn>
-
-        </MDBTabsPane>
-
-      </MDBTabsContent>
-
-    </MDBContainer>
+            <Tab label="Login" />
+            <Tab label="Register" />
+          </Tabs>
+          <Box sx={{ p: 2 }}>
+            {currentTab === 0 && (
+              <Box>
+                <Typography variant="h6" align="center" gutterBottom>
+                  Login
+                </Typography>
+                <TextField
+                  label="Email"
+                  fullWidth
+                  margin="normal"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                  label="Password"
+                  fullWidth
+                  margin="normal"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <FormControlLabel
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                  control={
+                    <Checkbox
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      color="primary"
+                    />
+                  }
+                  label="Remember Me"
+                />
+                {status && <p style={{ color: 'red' }}>{status}</p>} {/* Display error message */}
+                <Button
+                  sx={{
+                    marginTop: '10px'
+                  }}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handleLogin}
+                >
+                  Login
+                </Button>
+              </Box>
+            )}
+            {currentTab === 1 && (
+              <Box>
+                <Typography variant="h6" align="center" gutterBottom>
+                  Register
+                </Typography>
+                <TextField
+                  label="Name"
+                  fullWidth
+                  margin="normal"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <TextField
+                  label="Email"
+                  fullWidth
+                  margin="normal"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {status && <p style={{ color: 'red' }}>{status}</p>} {/* Display error message */}
+                <TextField
+                  label="Password"
+                  fullWidth
+                  margin="normal"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                  sx={{
+                    marginTop: '10px'
+                  }}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handleRegister}
+                >
+                  Register
+                </Button>
+              </Box>
+            )}
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
-}
+};
 
 export default Login;
