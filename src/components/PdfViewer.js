@@ -1,16 +1,16 @@
-import Viewer, { Worker } from '@phuocng/react-pdf-viewer';
+import { Viewer, Worker } from "@react-pdf-viewer/core";
 
-import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
+// Import the styles
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 const PdfViewer = () => {
-
     return (
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js">
-            <div style={{ height: '750px' }}>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.9.179/build/pdf.worker.min.js">
+            <div style={{ height: "750px" }}>
                 <Viewer fileUrl="https://arxiv.org/pdf/1706.03762.pdf" />
             </div>
         </Worker>
-    )
-}
+    );
+};
 
 export default PdfViewer;
