@@ -11,13 +11,6 @@ import {
 
 import axios from "axios";
 function Chat() {
-    //  [
-    //     {
-    //         message: "Hello, I'm ChatPaper! Ask me anything!",
-    //         sentTime: "just now",
-    //         sender: "ChatGPT",
-    //     },
-    // ];
     const [messages, setMessages] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +29,7 @@ function Chat() {
                     },
                 ]);
                 setIsTyping(false);
+                setIsLoading(false);
             });
     }
 
@@ -66,7 +60,6 @@ function Chat() {
                     },
                 ]);
                 setIsTyping(false);
-                setIsLoading(false);
             });
     }
 
