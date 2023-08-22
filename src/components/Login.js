@@ -53,6 +53,7 @@ const Login = () => {
         // Login successful
         console.log(response.cookies)
         history.push('/home'); // Navigate to /home
+        window.location.reload();
       } else {
         // Login failed
         setStatus('Invalid email or password'); // Display error message

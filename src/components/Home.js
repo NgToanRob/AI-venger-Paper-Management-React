@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import API_BASE_URL from '../apiConfig';
 import './Home.css'; // Import your custom CSS for styling
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { isAuthenticated } from './auth'; 
+
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [recommendedPapers, setRecommendedPapers] = useState([]);
+  const history = useHistory(); // Initialize useHistory
 
   const handleSearch = async () => {
     try {
@@ -27,6 +30,16 @@ const Home = () => {
   };
 
   useEffect(() => {
+    // Check if user is authenticated, redirect to login if not
+    const checkAuthStatus = async () => {
+      const authenticated = await isAuthenticated();
+      if (!authenticated) {
+        history.push('/login');
+      }
+    };
+
+    checkAuthStatus();
+
     (async () => {
       try {
         const response = await fetch(`${API_BASE_URL}home/api/recommended/`, {
@@ -44,7 +57,7 @@ const Home = () => {
         console.error('An error occurred:', error);
       }
     })(); // Immediately invoke the async function
-  }, []);
+  }, [history]);
   
   return (
     <Container className="home-container">
