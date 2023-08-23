@@ -1,88 +1,49 @@
-// NavigationBar.js
-
-import React, { useState, useEffect } from 'react'; 
-import { Navbar, Container, Nav, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { isAuthenticated } from './auth'; // Import the isAuthenticated function
-import API_BASE_URL from '../apiConfig';
-import { useHistory } from 'react-router-dom';
-
+import React from "react";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
+import NavItem from "react-bootstrap/NavItem";
+import NavLink from "react-bootstrap/NavLink";
 const NavbarComponent = () => {
-  // const userIsAuthenticated = isAuthenticated();
-  const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
-  const history = useHistory();
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      const authenticated = await isAuthenticated();
-      setUserIsAuthenticated(authenticated);
-    };
+    return (
+        <Navbar expand="lg" bg="light">
+            <Container>
+                {/* Brand Image */}
+                <Navbar.Brand href="/">
+                    <img
+                        src="https://res.cloudinary.com/dtlqt9ufv/image/upload/v1692718607/Screenshot_2023-08-22_at_22.36.28_rf2qii.png"
+                        width="120"
+                        height="30"
+                        className="d-inline-block align-top"
+                        alt="logo"
+                    />
+                </Navbar.Brand>
 
-    checkAuthentication();
-  }, []);
-  console.log(userIsAuthenticated)
-  const handleLogout = async () => {
-    
-    try {
-      const response = await fetch(`${API_BASE_URL}auth/logout/`, {
-        method: 'POST',
-        credentials: 'include', // Send cookies with the request
-      });
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-      if (response.ok) {
-        history.push('/login')
-        window.location.reload(); // Refresh the page to update the UI
-      
-      } else {
-        console.error('Error logging out:', response.statusText);
-      }
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
-  }; 
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href="/home">Home</Nav.Link>
+                        <Nav.Link href="/team">Team</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
 
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        {/* Brand Image */}
-        <Navbar.Brand as={Link} to="/">
-          <img
-            src="https://cinnamon.is/en/wp-content/uploads/sites/2/2020/04/CinnamonAI_1280x670.jpg" 
-            alt="Brand Logo"
-            height="60"
-          />
-        </Navbar.Brand>
+                {/* Profile Section */}
+                <Nav className="ml-auto">
+                    <Nav.Link href="/profile">Profile</Nav.Link>
+                    <Dropdown as={NavItem}>
+                        <Dropdown.Toggle as={NavLink}>User</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="/login">
+                                Login & Register
+                            </Dropdown.Item>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {/* Display the Home link only if the user is authenticated */}
-            {userIsAuthenticated && (
-              <Nav.Link as={Link} to="/">Home</Nav.Link>
-            )}
-            {/* Display the Link to ChatPaper only if the user is authenticated */}
-            {userIsAuthenticated && (
-              <Nav.Link as={Link} to="/chatpaper">ChatPaper</Nav.Link>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-
-        {/* Profile Section */}
-        <Nav className="ml-auto">
-          {/* Display the Link to Profile and Logout if the user is authenticated */}
-          {userIsAuthenticated ? (
-            <>
-              <Nav.Link href="/profile">Profile</Nav.Link>
-              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-            </>
-          ) : (
-            // Display the Link to Login if the user is not authenticated
-            <Nav.Link as={Link} to="/login">Login</Nav.Link>
-          )}
-        </Nav>
-      </Container>
-    </Navbar>
-  );
+                            <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Nav>
+            </Container>
+        </Navbar>
+    );
 };
 
 export default NavbarComponent;

@@ -1,56 +1,43 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import PdfViewer from './PdfViewer';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
+import React, { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+
+import Chat from "./Chat";
+import PdfViewer from "./PdfViewer";
 
 const ChatPaper = () => {
-  const [chatMessages, setChatMessages] = useState([]);
-  const [message, setMessage] = useState('');
+    const headingStyle = {
+        fontFamily: "Arial, sans-serif",
+        textAlign: "center",
+        fontSize: 50,
+    };
+    const EmojiStyle = {
+        fontSize: "1em",
+        margin: "0 0.2em",
+    };
+    return (
+        <Container onScroll={false}>
+            <Row>
+                {/* Left Section - PDF Viewer */}
+                <Col md={6}>
+                    <PdfViewer />
+                </Col>
 
-  const handleSendMessage = () => {
-    // Implement the logic to send the chat message to the backend or a state management system.
-    // For this example, we'll just update the local state.
-    if (message.trim() !== '') {
-      setChatMessages([...chatMessages, message]);
-      setMessage('');
-    }
-  };
+                {/* Right Section - Chat Block */}
+                <Col md={6}>
+                    <div style={{ textAlign: "center" }}>
+                        <h1 style={headingStyle}>
+                            <span style={EmojiStyle}>🤖</span>
+                            <span style={EmojiStyle}>💬</span> Chat Paper{" "}
+                            <span style={EmojiStyle}>🤖</span>
+                            <span style={EmojiStyle}>💬</span>
+                        </h1>
+                    </div>
 
-  return (
-    <Container>
-      <Row>
-        {/* Left Section - PDF Viewer */}
-        <Col md={6}>
-          <PdfViewer />
-        </Col>
-
-        {/* Right Section - Chat Block */}
-        <Col md={6}>
-          <div className="chat-block">
-            <div className="chat-messages">
-              {chatMessages.map((msg, index) => (
-                <div key={index} className="chat-message">
-                  {msg}
-                </div>
-              ))}
-            </div>
-            <div className="chat-input">
-              <input
-                type="text"
-                placeholder="Type your message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <Button variant="primary" onClick={handleSendMessage}>
-                Send
-              </Button>
-            </div>
-          </div>
-        </Col>
-      </Row>
-    </Container>
-  );
+                    <Chat />
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default ChatPaper;
