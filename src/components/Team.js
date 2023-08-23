@@ -15,7 +15,7 @@ const teamMembers = [
     {
         name: "Anh Dao",
         role: "Full Stack",
-        imageUrl: 'https://static2-images.vnncdn.net/files/publish/2022/12/8/meo-1-1416.jpg',
+        imageUrl: 'https://media.discordapp.net/attachments/1143920797153501287/1143920858772017213/screenshot_2023-08-23_at_21.28.24.png?width=590&height=580',
     },
     {
         name: "Huynh Quynh Anh",
